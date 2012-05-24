@@ -32,9 +32,9 @@ dynamicArray   = "{" ws expressions:expressions? ws "."? "}" {
 	       	  return smalltalk.DynamicArrayNode._new()
 		        ._nodes_(expressions)
 		  }
-dynamicDictionary = "#{" ws expressions: expressions? ws "}" {
+dynamicDictionary = "#{" ws associations: associations? ws "}" {
 	       	  return smalltalk.DynamicDictionaryNode._new()
-		        ._nodes_(expressions)
+		        ._nodes_(associations)
 		  }
 pseudoVariable = val:(
 	          'true' {return true} 
@@ -84,7 +84,20 @@ expressions    = first:expression others:expressionList* {
 		 	 result.push(others[i]);
 		     }
 		     return result;
-	       } 
+	       }
+
+association     = ws label: (identifier / string:string { return '\'' + string._value() + '\'' }) ws ":" ws value:expression {
+                        return [ label, value ];
+                }
+
+associationList = ws "." ws association:association {return association}
+associations    = first:association others:associationList* {
+                     var result = [first];
+                     for(var i=0;i<others.length;i++) {
+                         result.push(others[i]);
+                     }
+                     return result;
+                } 
 
 assignment     = variable:variable ws ':=' ws expression:expression {
 	       	     return smalltalk.AssignmentNode._new()
