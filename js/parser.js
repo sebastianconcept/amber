@@ -1722,7 +1722,7 @@ smalltalk.parser = (function(){
             pos2 = pos;
             result1 = parse_string();
             if (result1 !== null) {
-              result1 = (function(offset, string) { return '\'' + string._value() + '\'' })(pos2, result1);
+              result1 = (function(offset, string) { return '\'' + (string._value() + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0') + '\'' })(pos2, result1);
             }
             if (result1 === null) {
               pos = pos2;

@@ -86,7 +86,7 @@ expressions    = first:expression others:expressionList* {
 		     return result;
 	       }
 
-association     = ws label: (identifier / string:string { return '\'' + string._value() + '\'' }) ws ":" ws value:expression {
+association     = ws label: (identifier / string:string { return '\'' + (string._value() + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0') + '\'' }) ws ":" ws value:expression {
                         return [ label, value ];
                 }
 
