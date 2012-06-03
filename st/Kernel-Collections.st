@@ -932,8 +932,27 @@ at: anIndex ifAbsent: aBlock
 	<return self[anIndex - 1] || aBlock()>
 !
 
+capitalized
+	"Answers a copy of this string, with its first letter in uppercase."
+	|stream|
+	stream := StringStream on: String new.
+
+	^ (stream
+		nextPut: self first asUppercase;
+		nextPutAll: self allButFirst) contents
+!
+
 escaped
 	<return escape(self)>
+!
+
+occurrencesOf: anObject 
+	"Answer how many of the receiver's elements are equal to anObject."
+
+	| tally |
+	tally := 0.
+	self do: [:each | anObject = each ifTrue: [tally := tally + 1]].
+	^tally
 !
 
 size
@@ -1186,6 +1205,17 @@ includesSubString: subString
 	< return self.indexOf(subString) !!= -1 >
 !
 
+isDigit
+
+	^ self asNumber >= 0 or:[
+	self asNumber < 0]
+!
+
+isLetter
+
+	^ self isDigit not
+!
+
 isString
 	^true
 ! !
@@ -1242,6 +1272,18 @@ CharacterArray subclass: #Symbol
 
 at: anIndex ifAbsent: aBlock
 	^self asString at: anIndex ifAbsent: aBlock
+!
+
+precedence
+
+	"Answer the receiver's precedence, assuming it is a valid Smalltalk
+	message selector or 0 otherwise.  The numbers are 1 for unary,
+	2 for binary and 3 for keyword selectors."
+
+	self size = 0 ifTrue: [^ 0].
+	self first isLetter ifFalse: [^ 2].
+	self last = ':' ifTrue: [^ 3].
+	^ 1
 !
 
 size
@@ -1309,12 +1351,26 @@ shallowCopy
 
 !Symbol methodsFor: 'printing'!
 
+printString
+	^'#', self asString
+! !
+
+!Symbol methodsFor: 'testing'!
+
+isKeyword
+	"Answer whether the receiver is a message keyword."
+
+	^ self precedence = 3
+!
+
 isSymbol
 	^true
 !
 
-printString
-	^'#', self asString
+isUnary
+	"Answer whether the receiver is an unary message selector."
+
+	^ self precedence = 1
 ! !
 
 !Symbol class methodsFor: 'instance creation'!

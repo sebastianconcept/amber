@@ -1927,6 +1927,19 @@ return self;}
 smalltalk.String);
 
 smalltalk.addMethod(
+"_capitalized",
+smalltalk.method({
+selector: "capitalized",
+fn: function (){
+var self=this;
+var stream=nil;
+(stream=smalltalk.send((smalltalk.StringStream || StringStream), "_on_", [smalltalk.send((smalltalk.String || String), "_new", [])]));
+return smalltalk.send((function($rec){smalltalk.send($rec, "_nextPut_", [smalltalk.send(smalltalk.send(self, "_first", []), "_asUppercase", [])]);return smalltalk.send($rec, "_nextPutAll_", [smalltalk.send(self, "_allButFirst", [])]);})(stream), "_contents", []);
+return self;}
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
 "_copyFrom_to_",
 smalltalk.method({
 selector: "copyFrom:to:",
@@ -1966,6 +1979,28 @@ selector: "includesSubString:",
 fn: function (subString){
 var self=this;
  return self.indexOf(subString) != -1 ;
+return self;}
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_isDigit",
+smalltalk.method({
+selector: "isDigit",
+fn: function (){
+var self=this;
+return smalltalk.send(((($receiver = smalltalk.send(self, "_asNumber", [])).klass === smalltalk.Number) ? $receiver >=(0) : smalltalk.send($receiver, "__gt_eq", [(0)])), "_or_", [(function(){return ((($receiver = smalltalk.send(self, "_asNumber", [])).klass === smalltalk.Number) ? $receiver <(0) : smalltalk.send($receiver, "__lt", [(0)]));})]);
+return self;}
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_isLetter",
+smalltalk.method({
+selector: "isLetter",
+fn: function (){
+var self=this;
+return smalltalk.send(smalltalk.send(self, "_isDigit", []), "_not", []);
 return self;}
 }),
 smalltalk.String);
@@ -2076,6 +2111,20 @@ selector: "matchesOf:",
 fn: function (aRegularExpression){
 var self=this;
 return self.match(aRegularExpression);
+return self;}
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_occurrencesOf_",
+smalltalk.method({
+selector: "occurrencesOf:",
+fn: function (anObject){
+var self=this;
+var tally=nil;
+(tally=(0));
+smalltalk.send(self, "_do_", [(function(each){return ((($receiver = smalltalk.send(anObject, "__eq", [each])).klass === smalltalk.Boolean) ? ($receiver ? (function(){return (tally=((($receiver = tally).klass === smalltalk.Number) ? $receiver +(1) : smalltalk.send($receiver, "__plus", [(1)])));})() : nil) : smalltalk.send($receiver, "_ifTrue_", [(function(){return (tally=((($receiver = tally).klass === smalltalk.Number) ? $receiver +(1) : smalltalk.send($receiver, "__plus", [(1)])));})]));})]);
+return tally;
 return self;}
 }),
 smalltalk.String);
@@ -2497,6 +2546,17 @@ return self;}
 smalltalk.Symbol);
 
 smalltalk.addMethod(
+"_isKeyword",
+smalltalk.method({
+selector: "isKeyword",
+fn: function (){
+var self=this;
+return smalltalk.send(smalltalk.send(self, "_precedence", []), "__eq", [(3)]);
+return self;}
+}),
+smalltalk.Symbol);
+
+smalltalk.addMethod(
 "_isSymbol",
 smalltalk.method({
 selector: "isSymbol",
@@ -2504,6 +2564,33 @@ fn: function (){
 var self=this;
 return true;
 return self;}
+}),
+smalltalk.Symbol);
+
+smalltalk.addMethod(
+"_isUnary",
+smalltalk.method({
+selector: "isUnary",
+fn: function (){
+var self=this;
+return smalltalk.send(smalltalk.send(self, "_precedence", []), "__eq", [(1)]);
+return self;}
+}),
+smalltalk.Symbol);
+
+smalltalk.addMethod(
+"_precedence",
+smalltalk.method({
+selector: "precedence",
+fn: function (){
+var self=this;
+var $early={};
+try{((($receiver = smalltalk.send(smalltalk.send(self, "_size", []), "__eq", [(0)])).klass === smalltalk.Boolean) ? ($receiver ? (function(){return (function(){throw $early=[(0)]})();})() : nil) : smalltalk.send($receiver, "_ifTrue_", [(function(){return (function(){throw $early=[(0)]})();})]));
+((($receiver = smalltalk.send(smalltalk.send(self, "_first", []), "_isLetter", [])).klass === smalltalk.Boolean) ? (! $receiver ? (function(){return (function(){throw $early=[(2)]})();})() : nil) : smalltalk.send($receiver, "_ifFalse_", [(function(){return (function(){throw $early=[(2)]})();})]));
+((($receiver = smalltalk.send(smalltalk.send(self, "_last", []), "__eq", [":"])).klass === smalltalk.Boolean) ? ($receiver ? (function(){return (function(){throw $early=[(3)]})();})() : nil) : smalltalk.send($receiver, "_ifTrue_", [(function(){return (function(){throw $early=[(3)]})();})]));
+return (1);
+return self;
+} catch(e) {if(e===$early)return e[0]; throw e}}
 }),
 smalltalk.Symbol);
 
