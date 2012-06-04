@@ -929,7 +929,7 @@ asciiValue
 !
 
 at: anIndex ifAbsent: aBlock
-	<return self[anIndex - 1] || aBlock()>
+	<return String(self).charAt(anIndex - 1) || aBlock()>
 !
 
 capitalized
@@ -1071,6 +1071,12 @@ deepCopy
 
 shallowCopy
 	^self class fromString: self
+! !
+
+!String methodsFor: 'enumerating'!
+
+do: aBlock
+	<for(var i=0;i<self.length;i++){aBlock(self.charAt(i));}>
 ! !
 
 !String methodsFor: 'printing'!

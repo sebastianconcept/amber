@@ -2713,10 +2713,10 @@ selector: "at:ifAbsent:",
 category: 'accessing',
 fn: function (anIndex, aBlock){
 var self=this;
-return self[anIndex - 1] || aBlock();
+return String(self).charAt(anIndex - 1) || aBlock();
 return self;},
 args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<return self[anIndex - 1] || aBlock()>",
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<return String(self).charAt(anIndex - 1) || aBlock()>\x0a",
 messageSends: [],
 referencedClasses: []
 }),
@@ -2768,6 +2768,22 @@ return self;},
 args: [],
 source: "deepCopy\x0a\x09^self shallowCopy",
 messageSends: ["shallowCopy"],
+referencedClasses: []
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_do_",
+smalltalk.method({
+selector: "do:",
+category: 'enumerating',
+fn: function (aBlock){
+var self=this;
+for(var i=0;i<self.length;i++){aBlock(self.charAt(i));};
+return self;},
+args: ["aBlock"],
+source: "do: aBlock\x0a\x09<for(var i=0;i<self.length;i++){aBlock(self.charAt(i));}>",
+messageSends: [],
 referencedClasses: []
 }),
 smalltalk.String);
