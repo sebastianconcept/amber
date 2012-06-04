@@ -2723,6 +2723,24 @@ referencedClasses: []
 smalltalk.String);
 
 smalltalk.addMethod(
+"_capitalized",
+smalltalk.method({
+selector: "capitalized",
+category: 'accessing',
+fn: function (){
+var self=this;
+var stream=nil;
+(stream=smalltalk.send((smalltalk.StringStream || StringStream), "_on_", [smalltalk.send((smalltalk.String || String), "_new", [])]));
+return smalltalk.send((function($rec){smalltalk.send($rec, "_nextPut_", [smalltalk.send(smalltalk.send(self, "_first", []), "_asUppercase", [])]);return smalltalk.send($rec, "_nextPutAll_", [smalltalk.send(self, "_allButFirst", [])]);})(stream), "_contents", []);
+return self;},
+args: [],
+source: "capitalized\x0a\x09\x22Answers a copy of this string, with its first letter in uppercase.\x22\x0a\x09|stream|\x0a\x09stream := StringStream on: String new.\x0a\x0a\x09^ (stream\x0a\x09\x09nextPut: self first asUppercase;\x0a\x09\x09nextPutAll: self allButFirst) contents",
+messageSends: ["on:", "new", "contents", "nextPut:", "asUppercase", "first", "nextPutAll:", "allButFirst"],
+referencedClasses: ["StringStream", "String"]
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
 "_copyFrom_to_",
 smalltalk.method({
 selector: "copyFrom:to:",
@@ -2782,6 +2800,38 @@ return self;},
 args: ["subString"],
 source: "includesSubString: subString\x0a\x09< return self.indexOf(subString) != -1 >",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_isDigit",
+smalltalk.method({
+selector: "isDigit",
+category: 'testing',
+fn: function (){
+var self=this;
+return smalltalk.send(((($receiver = smalltalk.send(self, "_asNumber", [])).klass === smalltalk.Number) ? $receiver >=(0) : smalltalk.send($receiver, "__gt_eq", [(0)])), "_or_", [(function(){return ((($receiver = smalltalk.send(self, "_asNumber", [])).klass === smalltalk.Number) ? $receiver <(0) : smalltalk.send($receiver, "__lt", [(0)]));})]);
+return self;},
+args: [],
+source: "isDigit\x0a\x0a\x09^ self asNumber >= 0 or:[\x0a\x09self asNumber < 0]",
+messageSends: ["or:", ">=", "asNumber", "<"],
+referencedClasses: []
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_isLetter",
+smalltalk.method({
+selector: "isLetter",
+category: 'testing',
+fn: function (){
+var self=this;
+return smalltalk.send(smalltalk.send(self, "_isDigit", []), "_not", []);
+return self;},
+args: [],
+source: "isLetter\x0a\x0a\x09^ self isDigit not",
+messageSends: ["not", "isDigit"],
 referencedClasses: []
 }),
 smalltalk.String);
@@ -2932,6 +2982,25 @@ return self;},
 args: ["aRegularExpression"],
 source: "matchesOf: aRegularExpression\x0a      <return self.match(aRegularExpression)>",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.String);
+
+smalltalk.addMethod(
+"_occurrencesOf_",
+smalltalk.method({
+selector: "occurrencesOf:",
+category: 'accessing',
+fn: function (anObject){
+var self=this;
+var tally=nil;
+(tally=(0));
+smalltalk.send(self, "_do_", [(function(each){return ((($receiver = smalltalk.send(anObject, "__eq", [each])).klass === smalltalk.Boolean) ? ($receiver ? (function(){return (tally=((($receiver = tally).klass === smalltalk.Number) ? $receiver +(1) : smalltalk.send($receiver, "__plus", [(1)])));})() : nil) : smalltalk.send($receiver, "_ifTrue_", [(function(){return (tally=((($receiver = tally).klass === smalltalk.Number) ? $receiver +(1) : smalltalk.send($receiver, "__plus", [(1)])));})]));})]);
+return tally;
+return self;},
+args: ["anObject"],
+source: "occurrencesOf: anObject \x0a\x09\x22Answer how many of the receiver's elements are equal to anObject.\x22\x0a\x0a\x09| tally |\x0a\x09tally := 0.\x0a\x09self do: [:each | anObject = each ifTrue: [tally := tally + 1]].\x0a\x09^tally",
+messageSends: ["do:", "ifTrue:", "=", "+"],
 referencedClasses: []
 }),
 smalltalk.String);
@@ -3538,10 +3607,26 @@ referencedClasses: []
 smalltalk.Symbol);
 
 smalltalk.addMethod(
+"_isKeyword",
+smalltalk.method({
+selector: "isKeyword",
+category: 'testing',
+fn: function (){
+var self=this;
+return smalltalk.send(smalltalk.send(self, "_precedence", []), "__eq", [(3)]);
+return self;},
+args: [],
+source: "isKeyword\x0a\x09\x22Answer whether the receiver is a message keyword.\x22\x0a\x0a\x09^ self precedence = 3",
+messageSends: ["=", "precedence"],
+referencedClasses: []
+}),
+smalltalk.Symbol);
+
+smalltalk.addMethod(
 "_isSymbol",
 smalltalk.method({
 selector: "isSymbol",
-category: 'printing',
+category: 'testing',
 fn: function (){
 var self=this;
 return true;
@@ -3549,6 +3634,43 @@ return self;},
 args: [],
 source: "isSymbol\x0a\x09^true",
 messageSends: [],
+referencedClasses: []
+}),
+smalltalk.Symbol);
+
+smalltalk.addMethod(
+"_isUnary",
+smalltalk.method({
+selector: "isUnary",
+category: 'testing',
+fn: function (){
+var self=this;
+return smalltalk.send(smalltalk.send(self, "_precedence", []), "__eq", [(1)]);
+return self;},
+args: [],
+source: "isUnary\x0a\x09\x22Answer whether the receiver is an unary message selector.\x22\x0a\x0a\x09^ self precedence = 1",
+messageSends: ["=", "precedence"],
+referencedClasses: []
+}),
+smalltalk.Symbol);
+
+smalltalk.addMethod(
+"_precedence",
+smalltalk.method({
+selector: "precedence",
+category: 'accessing',
+fn: function (){
+var self=this;
+var $early={};
+try{((($receiver = smalltalk.send(smalltalk.send(self, "_size", []), "__eq", [(0)])).klass === smalltalk.Boolean) ? ($receiver ? (function(){return (function(){throw $early=[(0)]})();})() : nil) : smalltalk.send($receiver, "_ifTrue_", [(function(){return (function(){throw $early=[(0)]})();})]));
+((($receiver = smalltalk.send(smalltalk.send(self, "_first", []), "_isLetter", [])).klass === smalltalk.Boolean) ? (! $receiver ? (function(){return (function(){throw $early=[(2)]})();})() : nil) : smalltalk.send($receiver, "_ifFalse_", [(function(){return (function(){throw $early=[(2)]})();})]));
+((($receiver = smalltalk.send(smalltalk.send(self, "_last", []), "__eq", [":"])).klass === smalltalk.Boolean) ? ($receiver ? (function(){return (function(){throw $early=[(3)]})();})() : nil) : smalltalk.send($receiver, "_ifTrue_", [(function(){return (function(){throw $early=[(3)]})();})]));
+return (1);
+return self;
+} catch(e) {if(e===$early)return e[0]; throw e}},
+args: [],
+source: "precedence\x0a\x0a\x09\x22Answer the receiver's precedence, assuming it is a valid Smalltalk\x0a\x09message selector or 0 otherwise.  The numbers are 1 for unary,\x0a\x092 for binary and 3 for keyword selectors.\x22\x0a\x0a\x09self size = 0 ifTrue: [^ 0].\x0a\x09self first isLetter ifFalse: [^ 2].\x0a\x09self last = ':' ifTrue: [^ 3].\x0a\x09^ 1",
+messageSends: ["ifTrue:", "=", "size", "ifFalse:", "isLetter", "first", "last"],
 referencedClasses: []
 }),
 smalltalk.Symbol);
